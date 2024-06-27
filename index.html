@@ -8,33 +8,50 @@
         body {
             font-family: Arial, sans-serif;
             background-color: #f0f0f0;
+            margin: 20px;
             padding: 20px;
         }
-        h2 {
-            text-align: center;
-            color: #333;
-        }
-        form {
+
+        .form-container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
             max-width: 600px;
-            margin: 0 auto;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin: auto;
         }
-        label {
+
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-container label {
             font-weight: bold;
         }
-        input, select, textarea {
-            width: 100%;
+
+        .form-container input[type="text"],
+        .form-container input[type="email"],
+        .form-container textarea,
+        .form-container select {
+            width: calc(100% - 24px);
             padding: 8px;
-            margin-bottom: 10px;
+            margin: 8px 0;
             border: 1px solid #ccc;
             border-radius: 4px;
             box-sizing: border-box;
-            font-size: 14px;
+            font-size: 16px;
         }
-        button {
+
+        .form-container input[type="file"] {
+            margin-top: 4px;
+        }
+
+        .form-container textarea {
+            resize: vertical;
+        }
+
+        .form-container button[type="submit"] {
             background-color: #4CAF50;
             color: white;
             padding: 12px 20px;
@@ -42,100 +59,100 @@
             border-radius: 4px;
             cursor: pointer;
             font-size: 16px;
+            margin-top: 12px;
+            width: 100%;
         }
-        button:hover {
+
+        .form-container button[type="submit"]:hover {
             background-color: #45a049;
         }
-        #message {
-            margin-top: 20px;
-            text-align: center;
-            font-weight: bold;
+
+        /* Validation styles */
+        .form-container input:invalid,
+        .form-container textarea:invalid,
+        .form-container select:invalid {
+            border-color: red;
         }
     </style>
 </head>
 <body>
-    <center>
-        <h1>Form are created by atul</h1>
-    </center>
-    <h2>Job Application Form</h2>
-    <form id="jobApplicationForm" enctype="multipart/form-data">
-        <label for="fullName">Full Name:</label><br>
-        <input type="text" id="fullName" name="fullName" pattern=".{6,}" title="Minimum 6 characters required" required><br><br>
-       
-        <label for="phone">Phone Number:</label><br>
-        <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" title="Please enter a valid 10-digit phone number" required><br><br>
-       
-        <label for="email">Email:</label><br>
-        <input type="email" id="email" name="email" required><br><br>
-       
-        <label for="resume">Resume (PDF or DOCX):</label><br>
-        <input type="file" id="resume" name="resume" accept=".pdf,.docx" required><br><br>
-       
-        <label for="address">Address:</label><br>
-        <textarea id="address" name="address" rows="4" cols="50" required></textarea><br><br>
-       
-        <label for="position">Position for Apply:</label><br>
-        <input type="text" id="position" name="position" required><br><br>
-       
-        <label for="gender">Gender:</label><br>
-        <select id="gender" name="gender" required>
-            <option value="">Select Gender</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-            <option value="other">Other</option>
-        </select><br><br>
-       
-        <label for="qualification">Qualification:</label><br>
-        <select id="qualification" name="qualification" required>
-            <option value="">Select Qualification</option>
-            <option value="highschool">High School</option>
-            <option value="undergraduate">Undergraduate</option>
-            <option value="graduate">Graduate</option>
-            <option value="postgraduate">Postgraduate</option>
-        </select><br><br>
-       
-        <label for="reference">Reference:</label><br>
-        <input type="text" id="reference" name="reference"><br><br>
-       
-        <button type="submit">Submit Application</button>
-    </form>
- 
-    <div id="message"></div>
- 
+    <div class="form-container">
+        <h2>Job Application Form</h2>
+        <form action="http://localhost:8000/Application_Form" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+            <label for="fullName">Full Name:</label><br>
+            <input type="text" id="fullName" name="fullName" pattern="[A-Za-z]{6,}" title="Enter at least 6 characters of alphabetical text" required><br><br>
+            
+            <label for="phone">Phone:</label><br>
+            <input type="text" id="phone" name="phone" pattern="[0-9]{10,}" title="Enter a valid 10-digit phone number" required><br><br>
+            
+            <label for="email">Email:</label><br>
+            <input type="email" id="email" name="email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" title="Enter a valid email address" required><br><br>
+            
+            <label for="upload_file">Resume:</label><br>
+            <input type="file" id="upload_file" name="upload_file" accept=".pdf,.doc,.docx" required><br><br>
+            
+            <label for="photo">Photo (optional):</label><br>
+            <input type="file" id="photo" name="photo" accept="image/*"><br><br>
+            
+            <label for="address">Address:</label><br>
+            <textarea id="address" name="address" rows="4" required></textarea><br><br>
+            
+            <label for="position">Position Applying For:</label><br>
+            <input type="text" id="position" name="position" required><br><br>
+            
+            <label for="gender">Gender:</label><br>
+            <select id="gender" name="gender" required>
+                <option value="">Select Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+            </select><br><br>
+            
+            <label for="qualification">Qualification:</label><br>
+            <select id="qualification" name="qualification" required>
+                <option value="">Select Qualification</option>
+                <option value="highschool">High School</option>
+                <option value="undergraduate">Undergraduate</option>
+                <option value="graduate">Graduate</option>
+                <option value="postgraduate">Postgraduate</option>
+                <option value="doctorate">Doctorate</option>
+            </select><br><br>
+            
+            <label for="reference">Reference (optional):</label><br>
+            <textarea id="reference" name="reference" rows="4"></textarea><br><br>
+            
+            <button type="submit">Submit Application</button>
+        </form>
+    </div>
+
     <script>
-        document.getElementById('jobApplicationForm').addEventListener('submit', async function(event) {
-            event.preventDefault();
-           
-            const fullName = document.getElementById('fullName').value;
-            const phone = document.getElementById('phone').value;
-            const email = document.getElementById('email').value;
-           
-            // Client-side validation for full name (minimum 6 characters)
-            if (fullName.length < 6) {
-                alert('Full Name must be at least 6 characters long.');
-                return;
+        function validateForm() {
+            var fullName = document.getElementById("fullName").value;
+            var phone = document.getElementById("phone").value;
+            var email = document.getElementById("email").value;
+
+            // Regular expression patterns for validation
+            var namePattern = /[A-Za-z]{6,}/;
+            var phonePattern = /[0-9]{10,}/;
+            var emailPattern = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/;
+
+            if (!namePattern.test(fullName)) {
+                alert("Please enter at least 6 characters of alphabetical text for Full Name.");
+                return false;
             }
-           
-            // Client-side validation for phone number (exactly 10 digits)
-            if (!/^\d{10}$/.test(phone)) {
-                alert('Phone Number must be exactly 10 digits.');
-                return;
+
+            if (!phonePattern.test(phone)) {
+                alert("Please enter a valid 10-digit phone number.");
+                return false;
             }
-           
-            const formData = new FormData(this);
-            try {
-                const response = await fetch('http://localhost:8000/submit', {
-                    method: 'POST',
-                    body: formData
-                });
-                const result = await response.json();
-                document.getElementById('message').innerText = result.message; // Show success or error message
-                this.reset(); // Reset the form after successful submission
-            } catch (error) {
-                console.error('Error submitting the form:', error);
-                document.getElementById('message').innerText = 'Form submitted successfully';
+
+            if (!emailPattern.test(email)) {
+                alert("Please enter a valid email address.");
+                return false;
             }
-        });
+
+            return true;
+        }
     </script>
 </body>
 </html>
