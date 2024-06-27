@@ -80,7 +80,8 @@
         <h2>Job Application Form</h2>
         <form action="http://localhost:8000/Application_Form" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
             <label for="fullName">Full Name:</label><br>
-            <input type="text" id="fullName" name="fullName" pattern="[A-Za-z]{6,}" title="Enter at least 6 characters of alphabetical text" required><br><br>
+            <input type="text" id="fullName" name="fullName" required><br><br>
+
             
             <label for="phone">Phone:</label><br>
             <input type="text" id="phone" name="phone" pattern="[0-9]{10,}" title="Enter a valid 10-digit phone number" required><br><br>
@@ -126,33 +127,32 @@
     </div>
 
     <script>
-        function validateForm() {
-            var fullName = document.getElementById("fullName").value;
-            var phone = document.getElementById("phone").value;
-            var email = document.getElementById("email").value;
+    function validateForm() {
+    var fullName = document.getElementById("fullName").value;
+    var phone = document.getElementById("phone").value;
+    var email = document.getElementById("email").value;
 
-            // Regular expression patterns for validation
-            var namePattern = /[A-Za-z]{6,}/;
-            var phonePattern = /[0-9]{10,}/;
-            var emailPattern = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/;
+    // Regular expression patterns for validation
+    var phonePattern = /^[0-9]{10}$/;     // Updated to ensure exactly 10 digits
+    var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-            if (!namePattern.test(fullName)) {
-                alert("Please enter at least 6 characters of alphabetical text for Full Name.");
-                return false;
-            }
+    // Validation for phone number
+    if (!phonePattern.test(phone)) {
+        alert("Please enter a valid 10-digit phone number.");
+        return false;
+    }
 
-            if (!phonePattern.test(phone)) {
-                alert("Please enter a valid 10-digit phone number.");
-                return false;
-            }
+    // Validation for email address
+    if (!emailPattern.test(email)) {
+        alert("Please enter a valid email address.");
+        return false;
+    }
 
-            if (!emailPattern.test(email)) {
-                alert("Please enter a valid email address.");
-                return false;
-            }
+    // Form is valid
+    return true;
+}
 
-            return true;
-        }
+        
     </script>
 </body>
 </html>
